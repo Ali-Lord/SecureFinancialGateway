@@ -1,5 +1,5 @@
 # Secure Financial Gateway
-This project showcases a secure financial gateway designed with security and reliability as core principles. It handles sensitive financial operations while maintaining strict privacy and protection standards. Originally I built this for my past job assessment, this can now be used as a project to learn how a system should be built if you're new to the world of cybersecurity (in the field of finance). I will continuously update and harden it to maintain the highest levels of robustness and security.
+This project showcases a secure financial gateway designed with security and reliability as core principles. It handles sensitive financial operations while maintaining strict privacy and protection standards. Originally I built this for my skill demo, this can now be used as a project to learn how a system should be built if you're new to the world of cybersecurity (in the field of finance). I will continuously update and harden it to maintain the highest levels of robustness and security.
 
 **Backend:** Boost.Beast (C++)  
 **Frontend:** React TypeScript + Tailwind  

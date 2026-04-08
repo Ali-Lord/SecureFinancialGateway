@@ -1,5 +1,5 @@
-#ifndef SESSION_HPP
-#define SESSION_HPP
+#ifndef SESSION_H
+#define SESSION_H
 
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
@@ -28,7 +28,7 @@ private:
   void onRead(boost::beast::error_code ec, std::size_t bytesTransferred);
   void handleRequest();
   void sendResponse(boost::beast::http::status status, std::string body);
-  std::string getEnvVar(const std::string& var, const std::string& def);
+  std::string getEnvVar(const std::string& var, const std::string& def = "");
 };
 
 #endif

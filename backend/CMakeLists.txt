@@ -13,6 +13,7 @@ pkg_check_modules(PQXX REQUIRED libpqxx)
 add_executable(SecureFinancialGateway 
   apps/main.cpp
   src/Session.cpp
+  src/Listener.cpp
 )
 
 target_include_directories(SecureFinancialGateway PRIVATE 

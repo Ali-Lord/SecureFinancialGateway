@@ -61,7 +61,7 @@ void Session::handleRequest() {
       try {
         // DB Connection (localhost only for demo purposes)
         std::string connStr = "host=127.0.0.1 port=5432 dbname=sfg_db user=" +
-          getEnvVal("DB_USER") + " password=" + getEnvVal("DB_PASSWORD");
+          self->getEnvVar("DB_USER") + " password=" + self->getEnvVar("DB_PASSWORD");
 
         pqxx::connection db(connStr);
         pqxx::work txn(db);
@@ -111,7 +111,7 @@ void Session::sendResponse(http::status status, std::string body) {
   });
 }
 
-std::string Session::getEnvVar(const std::string& var, const std::string& def = "") {
+std::string Session::getEnvVar(const std::string& var, const std::string& def) {
   const char* val = std::getenv(var.c_str());
   return val ? val : def;
 }

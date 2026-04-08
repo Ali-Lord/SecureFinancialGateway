@@ -1,2 +1,4 @@
 *.env
 backend/build
+backend/key.pem
+backend/cert.pem

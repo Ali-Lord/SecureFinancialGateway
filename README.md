@@ -17,6 +17,8 @@ This project showcases a secure financial gateway designed with security and rel
 
 **Note:** This is a demonstration project. Always follow proper security practices and never use demo credentials or configurations in production environments. Everything is ran locally (localhost) inside an Alpine Linux Podman container. If you're working on a free open-source project and need guidance on security best practices, feel free to reach out.
 
+Also, there's no `make` or `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (might work on Windows and MacOS but it's untested).
+
 ## Architecture
 **Backend**
 - Async HTTPS server (Boost.Beast)

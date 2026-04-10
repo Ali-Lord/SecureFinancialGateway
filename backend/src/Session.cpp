@@ -56,6 +56,26 @@ void Session::onRead(beast::error_code ec, std::size_t) {
 }
 
 void Session::handleRequest() {
+  std::string target = std::string(req_.target());
+  std::string auth = std::string(req_[http::field::authorization]);
+
+  // Early return on failure to prevent garbage input (save CPU resources)
+  if (!auth.starts_with("Bearer ")){
+    /* TODO: include wwww_authenticate
+    res.set(http::field::www_authenticate, "Bearer");
+    */
+    sendResponse(http::status::unauthorized, "missing_token_error");
+    return;
+  }
+
+  std::string token = auth.substr(7);
+  std::string jwtError;
+  if (!validateJWT(token, jwtError)) {
+    // TODO: proper error message (json format)
+    sendResponse(http::status::unauthorized, jwtError);
+    return;
+  }
+
   if (req_.method() == http::verb::get && req_.target() == "/api/status") {
     boost::asio::post(dbPool_, [self = shared_from_this()]() {
       try {
@@ -65,7 +85,7 @@ void Session::handleRequest() {
 
         pqxx::connection db(connStr);
         pqxx::work txn(db);
-        
+
         auto r = txn.exec("SELECT COUNT(*) FROM transactions");
         int count = r[0][0].as<int>();
 
@@ -89,6 +109,7 @@ void Session::handleRequest() {
   }
 }
 
+// TODO: std::string body should be boost::json
 void Session::sendResponse(http::status status, std::string body) {
   boost::asio::dispatch(stream_.get_executor(), [self = shared_from_this(), status, body] {
     auto res = std::make_shared<http::response<http::string_body>>(status, self->req_.version());
@@ -109,6 +130,50 @@ void Session::sendResponse(http::status status, std::string body) {
       self->stream_.shutdown(ignore); // TODO: handle this
     });
   });
+}
+
+bool Session::validateJWT(const std::string& token, std::string& errorMsg){
+  try {
+    auto decoded = jwt::decode(token);
+
+    // temporary HS256 algorithm for testing purposes, ofc
+    auto verifier = jwt::verify()
+      .allow_algorithm(jwt::algorithm::hs256{getEnvVar("SFG_JWT_SECRET")})
+      .with_issuer("sfg-gateway")
+      .with_audience("sfg-gateway-api");
+
+    verifier.verify(decoded);
+
+    // NOTE: I manually built and installed jwt-cpp with CMake. My version
+    // of jwt-cpp doesn't have get_payload_claims()
+    // For reference: https://github.com/Thalhammer/jwt-cpp (v0.7.2)
+    if (decoded.has_payload_claim("scope")) {
+      std::string scope = decoded.get_payload_claim("scope").as_string();
+      if (scope != "transactions:read") {
+        errorMsg = "insufficient_scope";
+        return false;
+      }
+    }
+
+    return true;
+
+    // Standard way to check scope if you're not building from my referenced source (jwt-cpp)
+    /*
+    auto payload = decoded.get_payload_claims();
+    if (!payload.count("scope")) {
+      errorMsg = "scope_not_found";
+      return false;
+    } else if (payload.at("scope").as_string() != "transactions:read") {
+      errorMsg = "insufficient_scope";
+      return false;
+    }
+
+    return true;
+    */
+  } catch (const std::exception& e) {
+    errorMsg = e.what();
+    return false;
+  }
 }
 
 std::string Session::getEnvVar(const std::string& var, const std::string& def) {

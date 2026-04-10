@@ -5,6 +5,7 @@
 #include <boost/beast/http.hpp>
 #include <boost/beast/ssl.hpp>
 #include <boost/asio.hpp>
+#include <jwt-cpp/jwt.h>
 #include <memory>
 
 class Session : public std::enable_shared_from_this<Session> {
@@ -28,6 +29,7 @@ private:
   void onRead(boost::beast::error_code ec, std::size_t bytesTransferred);
   void handleRequest();
   void sendResponse(boost::beast::http::status status, std::string body);
+  bool validateJWT(const std::string& token, std::string& errorMsg);
   std::string getEnvVar(const std::string& var, const std::string& def = "");
 };
 

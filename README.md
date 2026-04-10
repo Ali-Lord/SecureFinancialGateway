@@ -2,7 +2,9 @@
 This is a skill demo (cybersecurity programming). It handles sensitive financial operations while maintaining strict privacy and protection standards. I will continuously update and harden it to maintain the best security and the highest privacy standards.
 
 **Backend:** Boost.Beast (C++), JWT-CPP, Argon2, CMake
+
 **Frontend:** Vite + React TypeScript + Tailwind
+
 **Database:** PostgreSQL
 
 ## Security Focus (Key Controls Implemented)

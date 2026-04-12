@@ -1,5 +1,5 @@
 # Secure Financial Gateway (continuous development)
-This is a skill demo (low level cybersecurity programming). It handles sensitive financial operations while maintaining strict privacy and protection standards. I will continuously update and harden it to maintain the best security practices and the highest privacy standards.
+This is a skill demo (low level cybersecurity programming). It handles sensitive financial operations while maintaining strict privacy and protection standards . I will continuously update and harden it to maintain the best security practices and the highest privacy standards.
 
 **Backend:** Boost.Beast (C++), JWT-CPP, Argon2, CMake <br/>
 **Frontend:** Vite + React TypeScript + Tailwind <br/>
@@ -7,6 +7,7 @@ This is a skill demo (low level cybersecurity programming). It handles sensitive
 
 ## Security Focus (Key Controls Implemented)
 - **TLS 1.3 only** + manually disabling legacy protocols
+- **PCI DSS** (Payment Card Industry Data Security Standard)
 - **JWT validation middleware** - full claim verification using Bearer tokens
 - **Prepared statements** for every database operation (libpqxx) - preventing SQL injection.
 - **Rate limiting** on API endpoints (Asio timer)
@@ -14,6 +15,10 @@ This is a skill demo (low level cybersecurity programming). It handles sensitive
 - **Strict CSP** and input sanitization on React side
 - **Axios interceptors** for automatic token handling and refresh
 - **Login system** where passward is stored as hash (Argon2)
+
+## TODO LIST
+- **OAuth2** Resource Server
+- **RS256** instead of HS256
 
 > [!NOTE]
 > Everything is ran locally (localhost) inside an Alpine Linux Podman container.

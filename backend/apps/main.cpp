@@ -8,7 +8,7 @@ int main() {
     boost::asio::io_context ioc{1};
     boost::asio::thread_pool dbPool{4};
 
-    // TLS 1.3 only (I went further by even manually disabled others)
+    // TLS 1.3 only (I went further by even manually disabling others)
     boost::asio::ssl::context ctx{boost::asio::ssl::context::tlsv13_server};
     ctx.set_options(
       boost::asio::ssl::context::default_workarounds |
@@ -18,7 +18,7 @@ int main() {
       boost::asio::ssl::context::no_tlsv1_1 |
       boost::asio::ssl::context::no_tlsv1_2
     );
-    ctx.use_certificate_chain_file("cert.pem"); // I'll create self-signed instead (for demo purposes, ofc)
+    ctx.use_certificate_chain_file("cert.pem"); // TODO: For now, I'll create self-signed instead. Change ASAP.
     ctx.use_private_key_file("key.pem", boost::asio::ssl::context::pem);
 
     std::make_shared<Listener>(ioc, ctx, boost::asio::ip::tcp::endpoint{{}, 8443}, dbPool)->run();

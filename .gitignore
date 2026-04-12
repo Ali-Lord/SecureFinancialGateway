@@ -1,7 +1,7 @@
 *.env
 backend/build
+backend/build-host
 backend/key.pem
 backend/cert.pem
-backend/build-host
 backend/.cache
 backend/compile_commands.json

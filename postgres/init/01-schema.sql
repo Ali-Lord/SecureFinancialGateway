@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL, -- argon2 hash
     role VARCHAR(50) CHECK (role IN ('admin', 'user')) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -8,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
     txn_id VARCHAR(64) UNIQUE NOT NULL,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     amount DECIMAL(15,2) NOT NULL,
     currency VARCHAR(3) DEFAULT 'HKD',
     status VARCHAR(20) CHECK (status IN ('pending', 'success', 'failed', 'refunded')) NOT NULL,
@@ -20,15 +21,18 @@ CREATE TABLE IF NOT EXISTS transactions (
 
 CREATE TABLE IF NOT EXISTS audit_log (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
     action VARCHAR(100) NOT NULL,
     ip_address INET,
     details JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
 -- Indexes needed for financial queries
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_transactions_user ON transactions(user_id);
-CREATE INDEX IF NOT EXISTS idx_transactions_created ON transactions(created_at);
+CREATE INDEX IF NOT EXISTS idx_transactions_created ON transactions(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_transactions_status ON transactions(status);
-CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at);
+CREATE INDEX IF NOT EXISTS idx_audit_user ON audit_log(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_created ON audit_log(created_at DESC);

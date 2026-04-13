@@ -93,9 +93,10 @@ bool Session::validateJWT(const std::string& token, std::string& errorMsg){
 
     verifier.verify(decoded);
 
-    // NOTE: I manually built and installed jwt-cpp with CMake. My version
-    // of jwt-cpp doesn't have get_payload_claims()
-    // For jwt-cpp repo reference: https://github.com/Thalhammer/jwt-cpp (v0.7.2)
+    /*
+     * NOTE: I manually built and installed jwt-cpp (v0.7.2) with CMake from source. My version
+     * of jwt-cpp doesn't have get_payload_claims(), but only get_payload_claim()
+    */
     if (decoded.has_payload_claim("scope")) {
       std::string scope = decoded.get_payload_claim("scope").as_string();
       if (scope != "transactions:read") {
@@ -106,7 +107,7 @@ bool Session::validateJWT(const std::string& token, std::string& errorMsg){
 
     return true;
 
-    // Standard way to check scope if you did NOT build from source (jwt-cpp)
+    // Standard way to check scopes if you did NOT build from source (jwt-cpp)
     // For jwt-cpp repo reference: https://github.com/Thalhammer/jwt-cpp (v0.7.2)
     /*
     auto payload = decoded.get_payload_claims();

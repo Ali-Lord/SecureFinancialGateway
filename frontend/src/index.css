@@ -1,0 +1,26 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: "Inter", "Inter Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "JetBrainsMono Nerd Font", monospace;
+  
+  --color-bank-red: #db0011;
+}
+
+/* Force the font on everything */
+* {
+  font-family: inherit;
+}
+
+:root {
+  font-family: var(--font-sans) !important;
+}
+
+/* Specifically target inputs and buttons as they often ignore parent fonts */
+input, button, textarea, select, code {
+  font-family: var(--font-sans);
+}
+
+.font-mono, code, pre {
+  font-family: var(--font-mono) !important;
+}

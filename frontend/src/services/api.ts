@@ -11,7 +11,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      //window.location.href = '/login'; // TODO: this is a fallback for now. ('hard' redirect)
+      window.location.href = '/login'; // TODO: this is a fallback for now. ('hard' redirect)
     }
     return Promise.reject(error);
   }

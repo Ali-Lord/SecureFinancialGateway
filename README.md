@@ -1,33 +1,43 @@
-# Secure Financial Gateway (continuous development)
-This is a skill demo (low level cybersecurity programming). It handles sensitive financial operations while maintaining PCI DSS (Payment Card Industry Data Security Standard). I will continuously improve and strengthen it to uphold top-tier security practices and ensure the highest standards of privacy.
+# Secure Financial Gateway
+A practical demo of **low-level** cybersecurity code handling financial operations. It's designed with PCI DSS (Payment Card Industry Data Security Standard) compliance in mind, and I'll continuously improve and strengthen it to uphold top-tier security practices and ensure the highest standards of privacy.
 
 **Backend:** Boost.Beast (C++), JWT-CPP, OpenSSL, Argon2, CMake <br/>
 **Frontend:** Vite + React TypeScript + Tailwind <br/>
 **Database:** PostgreSQL
 
+![login-pic](readme-asset/login.png)
+![dashboard-pic](readme-asset/dashboard.png)
+
 ## Security Focus (Key Controls Implemented)
-- **TLS 1.3 only** + manually disabling legacy protocols
+- **TLS 1.3 exclusive** by configuring the OpenSSL context (manually disabling legacy protocols)
 - **PCI DSS** (Payment Card Industry Data Security Standard)
 - **JWT validation middleware** - full claim verification using Bearer tokens
-- **Prepared statements** for every database operation (libpqxx) - preventing SQL injection.
-- **Rate limiting** on API endpoints (Asio timer)
+- **Prepared statements** for every database operation (libpqxx) - preventing SQL injection
 - **Audit logging** for key actions (metadata only, no sensitive data)
-- **Strict CSP** and input sanitization on React side
 - **Axios interceptors** for automatic token handling and refresh
-- **Login system** where passward is stored as hash (Argon2)
+- **Cryptographic identity & password hardening system** where passward is stored as hash (Argon2id)
+- **Custom built base64 PHC format**, a gold standard for storing hashes in databases
+- **HSTS** - to never attempt a connection over unencrypted HTTP
+- **Anti-Sniffing & circlejacking headers** to prevent the browser from being tricked into executing malicious code
 
 ## TODO LIST
 - **OAuth2** Resource Server
 - **RS256** instead of HS256
+- **Strict CSP** and input sanitization on React side
+- **httpOnly** cookie
+- **Token ghost** prevention
+- **Rate limiting** on API endpoints (Asio timer)
+- **Refactor to parameterized queries** by replacing ALL static execution
 
 > [!NOTE]
-> Everything is ran locally (localhost) inside an Alpine Linux Podman container.
-> Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS, but it's untested).
+> As this is a cybersecurity **demo** project, everything is ran locally (localhost) inside an Alpine Linux Podman container.
+> Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS with minor configuration, but it's untested).
 
-## Required (TODO)
-postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers
+## Required
+postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers (TODO: update the required)
 
 ## For Alpine Linux container (Podman)
+### libpqxx installation
 If you're using the latest Alpine Linux container, you won't have libpqxx and will have to build it from source. Follow my instructions.
 
 ```
@@ -45,10 +55,21 @@ make -j$(nproc)
 make install
 ```
 
-## TODO JWT Manuage installation guide
-
-## Server setup instructions (TODO)
+### JWT manual installation
 ```
+TODO
+```
+
+### Database setup
+```
+TODO
+```
+
+### Server setup instructions
+Assuming you've configured your PostgreSQL database my way, the following should help you start `./backend/build/SecureFinancialGateway` server.
+```
+su - postgres -c "pg_ctl -D /var/lib/postgresql/data -l /var/lib/postgresql/logfile start"
+
 export SFG_JWT_SECRET=tmp123
 export SFG_JWT_ISSUER=sfg-gateway
 export SFG_JWT_AUDIENCE=sfg-gateway-api

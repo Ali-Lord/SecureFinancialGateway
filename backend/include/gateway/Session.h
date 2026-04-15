@@ -8,6 +8,7 @@
 #include <boost/json.hpp>
 #include <jwt-cpp/jwt.h>
 #include <memory>
+#include <utility>
 
 class Session : public std::enable_shared_from_this<Session> {
   boost::beast::ssl_stream<boost::beast::tcp_stream> stream_;
@@ -40,7 +41,7 @@ private:
   bool verifyPassword(const std::string& password, const std::string& encoded_hash);
 
   // ========== RESTful API HANDLERS ==========
-  boost::json::value handleLogin(const std::string& body);
+  std::pair<boost::json::value, boost::beast::http::status> handleLogin(const std::string& body);
   boost::json::value handleStatus();
   boost::json::value handleTransactions();
 

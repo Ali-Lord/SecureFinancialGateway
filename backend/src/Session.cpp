@@ -63,6 +63,7 @@ void Session::sendResponse(http::status status, std::string body) {
   boost::asio::dispatch(stream_.get_executor(), [self = shared_from_this(), status, body] {
     auto res = std::make_shared<http::response<http::string_body>>(status, self->req_.version());
     res->set(http::field::content_type, "application/json");
+
     res->body() = body;
     res->prepare_payload();
     res->version(self->req_.version());
@@ -207,8 +208,8 @@ void Session::handleRequest() {
 
   // Login (public)
   if (method == "POST" && target == "/api/login") {
-    boost::json::value result = handleLogin(req_.body());
-    sendResponse(http::status::ok, boost::json::serialize(result));
+    auto [resultJson, resultStatus] = handleLogin(req_.body());
+    sendResponse(resultStatus, boost::json::serialize(resultJson));
     return;
   }
 
@@ -242,7 +243,7 @@ void Session::handleRequest() {
   }
 }
 
-boost::json::value Session::handleLogin(const std::string& body) {
+std::pair<boost::json::value, http::status> Session::handleLogin(const std::string& body) {
   try {
     auto json = boost::json::parse(body);
     std::string email = json.at("email").as_string().c_str();
@@ -255,7 +256,7 @@ boost::json::value Session::handleLogin(const std::string& body) {
 
     auto r = txn.exec_params("SELECT id, password_hash, role FROM users WHERE email = $1", email);
     if (r.empty()) {
-      return boost::json::object{{"error", "invalid_credentials"}};
+      return {boost::json::object{{"error", "invalid_credentials"}}, http::status::unauthorized};
     }
 
     if (!verifyPassword(password, r[0][1].c_str())) {
@@ -265,7 +266,7 @@ boost::json::value Session::handleLogin(const std::string& body) {
           r[0][0].as<int>(), "{\"reason\": \"wrong_password\"}");
       txn.commit();
 
-      return boost::json::object{{"error", "invalid_credentials"}};
+      return {boost::json::object{{"error", "invalid_credentials"}}, http::status::unauthorized};
     }
 
     auto token = jwt::create()
@@ -287,9 +288,9 @@ boost::json::value Session::handleLogin(const std::string& body) {
     boost::json::object res;
     res["token"] = token;
     res["role"] = r[0][2].c_str();
-    return res;
+    return {res, http::status::ok};
   } catch (const std::exception& e) {
-    return boost::json::object{{"error", "invalid_request"}}; // TODO: handle the exceptions
+    return {boost::json::object{{"error", e.what()}}, http::status::unauthorized};
   }
 }
 

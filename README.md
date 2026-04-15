@@ -31,7 +31,7 @@ A practical demo of **low-level** cybersecurity code handling financial operatio
 
 > [!NOTE]
 > As this is a cybersecurity **demo** project, everything is ran locally (localhost) inside an Alpine Linux Podman container.
-> Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS with minor configuration, but it's untested).
+> Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS with minor configuration, but it's untested as I use Gentoo distro for development).
 
 ## Required
 postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers (TODO: update the required)

@@ -1,7 +1,7 @@
 # Secure Financial Gateway (continuous development)
 This is a skill demo (low level cybersecurity programming). It handles sensitive financial operations while maintaining PCI DSS (Payment Card Industry Data Security Standard). I will continuously improve and strengthen it to uphold top-tier security practices and ensure the highest standards of privacy.
 
-**Backend:** Boost.Beast (C++), JWT-CPP, Argon2, CMake <br/>
+**Backend:** Boost.Beast (C++), JWT-CPP, OpenSSL, Argon2, CMake <br/>
 **Frontend:** Vite + React TypeScript + Tailwind <br/>
 **Database:** PostgreSQL
 

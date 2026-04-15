@@ -5,3 +5,5 @@ backend/key.pem
 backend/cert.pem
 backend/.cache
 backend/compile_commands.json
+frontend/node_modules
+*.log

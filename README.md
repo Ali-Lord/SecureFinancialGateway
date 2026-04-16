@@ -42,14 +42,13 @@ postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers, JWT-C
 If you're using the Alpine Linux v3.23 container, you won't have libpqxx and will have to build it from source. Follow my instructions.
 
 ```
-# Download libpqxx
 cd /tmp
+# Need libpqxx 8.0.0
 wget https://github.com/jtv/libpqxx/archive/refs/tags/8.0.0.tar.gz -O libpqxx-8.0.0.tar.gz
 
 tar -xzf libpqxx-8.0.0.tar.gz
 cd libpqxx-8.0.0
 
-# Build and install
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
 make -j$(nproc)

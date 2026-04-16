@@ -33,10 +33,10 @@ A practical demo of **low-level** cybersecurity code handling financial operatio
 > As this is a cybersecurity **demo** project, everything is ran locally (localhost) inside an Alpine Linux Podman container.
 > Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS with minor configuration, but it's untested as I use Gentoo distro for development).
 
-## Required
-postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers (TODO: update the required)
-
 ## For Alpine Linux container (Podman)
+### Required
+postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers, JWT-CPP (v0.7.2) (TODO: update the required)
+
 ### libpqxx installation
 If you're using the latest Alpine Linux container, you won't have libpqxx and will have to build it from source. Follow my instructions.
 
@@ -55,9 +55,14 @@ make -j$(nproc)
 make install
 ```
 
-### JWT manual installation
+### JWT installation
 ```
-TODO
+git clone https://github.com/Thalhammer/jwt-cpp.git
+
+cd jwt-cpp
+cmake .
+cmake --build
+cmake --install .
 ```
 
 ### Database setup
@@ -66,13 +71,33 @@ TODO
 ```
 
 ### Server setup instructions
-Assuming you've configured your PostgreSQL database my way, the following should help you start `./backend/build/SecureFinancialGateway` server.
+Assuming you've configured your PostgreSQL database my way, the following should help you get your server ready.
 ```
 su - postgres -c "pg_ctl -D /var/lib/postgresql/data -l /var/lib/postgresql/logfile start"
 
-export SFG_JWT_SECRET=tmp123
+export SFG_JWT_SECRET=tmp123 # For the sake of demo
 export SFG_JWT_ISSUER=sfg-gateway
 export SFG_JWT_AUDIENCE=sfg-gateway-api
 export DB_USER=sfg_user
-export DB_PASSWORD=tmp123
+export DB_PASSWORD=tmp123 # For the sake of demo
 ```
+
+### Server start
+To start the backend server:
+`./backend/build/SecureFinancialGateway`
+
+To start the vite server:
+```
+cd frontend
+npm run dev
+```
+
+If you're running it int a container and have port-forwarded 5173:
+>[!WARNING]
+> The bottom command exposes your develpment server to your entire local network and depending on your network configration, maybe even the public network.
+```
+cd frontend
+npm run dev -- --host 0.0.0.0
+
+```
+

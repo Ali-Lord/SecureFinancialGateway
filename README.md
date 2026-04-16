@@ -1,5 +1,5 @@
 # Secure Financial Gateway
-A practical demo of **low-level** cybersecurity code handling financial operations. It's designed with PCI DSS (Payment Card Industry Data Security Standard) compliance in mind, and I'll continuously improve and strengthen it to uphold top-tier security practices and ensure the highest standards of privacy. Do note that this is a demonstration of cybersecurity best practices, not frontend React styling.
+A practical demo of **low-level** cybersecurity code handling financial operations. It's designed with PCI DSS (Payment Card Industry Data Security Standard) compliance in mind, and I'll continuously improve and strengthen it to uphold top-tier security practices and ensure the highest standards of privacy. Do note that this is a demonstration of cybersecurity best practices, not frontend React beauty styling.
 
 **Backend:** Boost.Beast (C++), JWT-CPP, OpenSSL, Argon2, CMake <br/>
 **Frontend:** Vite + React TypeScript + Tailwind <br/>

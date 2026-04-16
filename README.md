@@ -28,7 +28,7 @@ A practical demo of **low-level** cybersecurity code handling financial operatio
 - **Token ghost** prevention
 - **Rate limiting** on API endpoints (Asio timer)
 - **Refactor to parameterized queries** by replacing ALL static execution
-- **hCaptcha** for privacy-first (perfect alternative)
+- **hCaptcha** for privacy-first captcha
 
 > [!NOTE]
 > As this is a cybersecurity **demo** project, everything is ran locally (localhost) inside an Alpine Linux Podman container.

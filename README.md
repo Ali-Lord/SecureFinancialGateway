@@ -70,6 +70,14 @@ cmake --install .
 TODO
 ```
 
+### Build backend from source
+```
+cd backend
+rm -rf build # If exists already
+cmake -B build -S .
+cmake --build  build --config Release
+```
+
 ### Server setup instructions
 Assuming you've configured your PostgreSQL database my way, the following should help you get your server ready.
 ```
@@ -84,7 +92,9 @@ export DB_PASSWORD=tmp123 # For the sake of demo
 
 ### Server start
 To start the backend server:
-`./backend/build/SecureFinancialGateway`
+```
+./backend/build/SecureFinancialGateway
+```
 
 To start the vite server:
 ```
@@ -98,6 +108,5 @@ If you're running it int a container and have port-forwarded 5173:
 ```
 cd frontend
 npm run dev -- --host 0.0.0.0
-
 ```
 

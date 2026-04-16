@@ -38,7 +38,7 @@ A practical demo of **low-level** cybersecurity code handling financial operatio
 postgresql16-dev, boost-dev, openssl-dev, cmake, make, g++, linux-headers, JWT-CPP (v0.7.2) (TODO: update the required)
 
 ### libpqxx installation
-If you're using the latest Alpine Linux container, you won't have libpqxx and will have to build it from source. Follow my instructions.
+If you're using the Alpine Linux v3.23 container, you won't have libpqxx and will have to build it from source. Follow my instructions.
 
 ```
 # Download libpqxx

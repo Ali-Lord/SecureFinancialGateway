@@ -30,9 +30,12 @@ A practical demo of **low-level** cybersecurity code handling financial operatio
 - **Refactor to parameterized queries** by replacing ALL static execution
 - **hCaptcha** for privacy-first captcha
 
+## Architecture
+![diagram-pic](readme-asset/diagram.png)
+
 > [!NOTE]
 > As this is a cybersecurity **demo** project, everything is ran locally (localhost) inside an Alpine Linux Podman container.
-> Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS with minor configuration, but it's untested as I use Gentoo distro for development).
+> Also, there's no `./build.sh` provided to get you started. I use Vim as my primary editor so the repository contains no IDE-specific configuration files. Simply clone the repository and open it with your preferred editor on GNU/Linux (will probably compile fine on Windows and MacOS with minor configuration, but it's untested as I use Gentoo distro as host and Alpine linux as container for development).
 
 ## For Alpine Linux container (Podman)
 ### Required
@@ -67,7 +70,7 @@ cmake --install .
 
 ### Database setup
 ```
-TODO
+TODO: database setup instructions
 ```
 
 ### Build backend from source

@@ -47,10 +47,9 @@ If you're using the Alpine Linux v3.23 container, you won't have libpqxx and wil
 ```
 cd /tmp
 # Need libpqxx 8.0.0
-wget https://github.com/jtv/libpqxx/archive/refs/tags/8.0.0.tar.gz -O libpqxx-8.0.0.tar.gz
+git clone --depth 1 --branch 8.0.0 https://github.com/jtv/libpqxx.git
 
-tar -xzf libpqxx-8.0.0.tar.gz
-cd libpqxx-8.0.0
+cd libpqxx
 
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
